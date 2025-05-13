@@ -1,5 +1,6 @@
+import java.io.File;
 
-public class AudioFile {
+public abstract class AudioFile {
 	private String pathname;
 	private String filename;
 	private String author;
@@ -11,6 +12,12 @@ public class AudioFile {
     public AudioFile(String path) {
 		parsePathname(path);
 		parseFilename(filename);
+		
+		//File
+		File file = new File(pathname);
+		if(!file.canRead()) {
+			throw new RuntimeException("File cannot be read: " + pathname);
+		}
 	}
     
     private boolean isWindows() {
@@ -137,12 +144,16 @@ public class AudioFile {
 		return author;
 	}
 
-	/*public void setAuthor(String author) {
+	public void setAuthor(String author) {
 		this.author = author;
-	}*/
+	}
 
 	public String getTitle() {
 		return title;
+	}
+	
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	@Override
@@ -161,8 +172,14 @@ public class AudioFile {
 	    }
 	    return author + " - " + title;
 	}
+	
+	 public abstract void play();
+	 public abstract void togglePause();
+	 public abstract void stop();
+	 public abstract String formatDuration();
+	 public abstract String formatPosition();
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		//Window path:drive + dir path+filename+extension
 		//filename:<author> + "-" + ,title.
 		AudioFile af = new AudioFile("C:\\media\\Falco - Rock me amadeus.mp3");
@@ -180,7 +197,7 @@ public class AudioFile {
 
 		
 
-	}
+	}*/
 
 
 
